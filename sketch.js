@@ -110,16 +110,16 @@ const moveActivePiece = (dir) => {
 }
 
 function keyPressed() {
-        switch(keyCode){
-            case 83:
-                moveActivePiece("down");
-                break;
-            case 65:
-                moveActivePiece("left");
-                break;
-                break;
-            case 68:
-                moveActivePiece("right");
-                break;
-        }
+    switch(keyCode){
+        case 83:
+            moveActivePiece("down");
+            break;
+        case 65:
+            moveActivePiece("left");
+            break;
+            break;
+        case 68:
+            moveActivePiece("right");
+            break;
+    }
 }
