@@ -30,6 +30,12 @@ function setup(){
 const update = () => {
     if(millis() >= 500+timer){
         moveActivePiece("down");
+        if(checkColDown()){
+            for(let i = 0; i < 4; i++){
+                board[activePiece.L[i][1]][activePiece.L[i][0]] = 1;
+            }
+            activePiece = new Piece();
+        }
         timer = millis()
     }
 
