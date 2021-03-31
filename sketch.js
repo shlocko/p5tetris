@@ -38,7 +38,6 @@ const update = () => {
         } else {
             moveActivePiece("down");
         }
-
         checkRows();
         timer = millis()
     }
