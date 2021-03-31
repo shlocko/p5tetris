@@ -89,7 +89,7 @@ const checkColDown = () => {
 const checkColLeft = () => {
     let check = false;
     for (let i = 0; i < 4; i++){
-        if(board[activePiece.P[i][1]][activePiece.P[i][0]+1] === 1 || activePiece.P[i][0] === 0){
+        if(board[activePiece.P[i][1]][activePiece.P[i][0]-1] === 1 || activePiece.P[i][0] === 0){
             check = true;
         }
     }
@@ -98,7 +98,7 @@ const checkColLeft = () => {
 const checkColRight = () => {
     let check = false;
     for (let i = 0; i < 4; i++){
-        if(board[activePiece.P[i][1]][activePiece.P[i][0] - 1] === 1 || activePiece.P[i][0] === 9){
+        if(board[activePiece.P[i][1]][activePiece.P[i][0]+1] === 1 || activePiece.P[i][0] === 9){
             check = true;
         }
     }
@@ -122,6 +122,12 @@ const moveActivePiece = (dir) => {
             }
             break;
         case "left":
+            let check = false;
+            for (let i = 0; i < 4; i++){
+                if(board[activePiece.P[i][0]][activePiece.P[i][1]-1] === 1 || activePiece.P[i][0] === 0){
+                    check = true;
+                }
+            }
             if (!checkColLeft()){
                 for (let i = 0; i < 4; i++){
                     activePiece.P[i][0]-=1;
