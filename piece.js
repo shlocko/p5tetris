@@ -1,6 +1,6 @@
 class Piece{
     constructor() {
-        this.INT = this.randomInt(1,7);
+        this.INT = this.randomInt(1,8);
         switch(this.INT){
             case 1:
                 this.P = this.L;
