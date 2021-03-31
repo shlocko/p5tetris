@@ -1,7 +1,8 @@
 
-let board, activePiece, timer;
+let board, activePiece, timer, speed;
 activePiece = new Piece();
 timer = 0;
+speed = 500;
 
 board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,14 +29,17 @@ function setup(){
 }
 
 const update = () => {
-    if(millis() >= 500+timer){
-        moveActivePiece("down");
+    if(millis() >= speed+timer){
         if(checkColDown()){
             for(let i = 0; i < 4; i++){
-                board[activePiece.L[i][1]][activePiece.L[i][0]] = 1;
+                board[activePiece.P[i][1]][activePiece.P[i][0]] = 1;
             }
             activePiece = new Piece();
+        } else {
+            moveActivePiece("down");
         }
+
+        checkRows();
         timer = millis()
     }
 
@@ -55,15 +59,29 @@ function draw(){
         }
     }
     for (let i = 0; i < 4; i++){
-        rect(activePiece.L[i][0]*40, activePiece.L[i][1]*40, 40);
+        rect(activePiece.P[i][0]*40, activePiece.P[i][1]*40, 40);
     }
     update();
+}
+
+const checkRows = () => {
+    for (let i = 0; i < board.length; i++){
+        let check = true;
+        for(let u = 0; u < board[i].length; u++){
+            if(board[i][u] === 0) check = false;
+        }
+        if(check){
+            board.splice(i, 1);
+            board.splice(0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        }
+    }
+
 }
 
 const checkColDown = () => {
     let check = false;
     for (let i = 0; i < 4; i++){
-        if(activePiece.L[i][1] === 15 || board[activePiece.L[i][1]+1][activePiece.L[i][0]] === 1){
+        if(activePiece.P[i][1] === 15 || board[activePiece.P[i][1]+1][activePiece.P[i][0]] === 1){
             check = true;
         }
     }
@@ -72,7 +90,7 @@ const checkColDown = () => {
 const checkColLeft = () => {
     let check = false;
     for (let i = 0; i < 4; i++){
-        if(board[activePiece.L[i][0]][activePiece.L[i][1]+1] === 1 || activePiece.L[i][0] === 0){
+        if(board[activePiece.P[i][1]][activePiece.P[i][0]+1] === 1 || activePiece.P[i][0] === 0){
             check = true;
         }
     }
@@ -81,7 +99,7 @@ const checkColLeft = () => {
 const checkColRight = () => {
     let check = false;
     for (let i = 0; i < 4; i++){
-        if(board[activePiece.L[i][0]][activePiece.L[i][1] - 1] === 1 || activePiece.L[i][0] === 9){
+        if(board[activePiece.P[i][1]][activePiece.P[i][0] - 1] === 1 || activePiece.P[i][0] === 9){
             check = true;
         }
     }
@@ -93,21 +111,21 @@ const moveActivePiece = (dir) => {
         case "down":
             if (!checkColDown()){
                 for (let i = 0; i < 4; i++){
-                    activePiece.L[i][1]+=1;
+                    activePiece.P[i][1]+=1;
                 }
             }
             break;
         case "right":
             if (!checkColRight()){
                 for (let i = 0; i < 4; i++){
-                    activePiece.L[i][0]+=1;
+                    activePiece.P[i][0]+=1;
                 }
             }
             break;
         case "left":
             if (!checkColLeft()){
                 for (let i = 0; i < 4; i++){
-                    activePiece.L[i][0]-=1;
+                    activePiece.P[i][0]-=1;
                 }
             }
             break;
@@ -122,7 +140,6 @@ function keyPressed() {
             break;
         case 65:
             moveActivePiece("left");
-            break;
             break;
         case 68:
             moveActivePiece("right");
